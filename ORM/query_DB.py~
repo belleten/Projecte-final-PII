@@ -1,0 +1,61 @@
+from database import User, Base, Keg
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+engine = create_engine('sqlite:///mydatabase.db')
+Base.metadata.bind = engine
+
+DBSession = sessionmaker()
+DBSession.bind = engine
+session = DBSession()
+
+
+
+#queries for users-----------------------------------------------------
+
+def delete_user(user_id):
+    User.filter(user_id=user_id).delete()
+
+def update_user(username=username, user_id=user_id, real_name=real_name, email=email, amount=amount):
+    if User.filter(user_id=user_id)!=None:
+        delete_user(user_id)
+        new_user=User(username=username, user_id=user_id, real_name=real_name, email=email, amount=amount)
+        session.add(new_user)
+
+def get_user(user_id):
+    user = User.get(user_id=user_id)
+    return user
+
+def get_all_users():
+    users = User.all()
+    return users
+
+def create_user(username,user_id,real_name, email):
+    new_user = User(username=username, user_id=user_id, real_name=real_name, email=email, amount=0)
+    session.add(new_user)
+
+#queries for kegs-----------------------------------------------------
+
+
+def get_keg():
+    keg = Keg.get(user_id=user_id)
+    return keg
+
+def get_all_kegs():
+    kegs = Keg.all()
+    return kegs
+
+def create_keg(keg_id, amount):
+    new_keg = User(kegid=keg_id, amount=0)
+    session.add(new_keg)
+
+def delete_keg(keg_id):
+    Keg.filter(kegid=keg_id).delete()
+
+def update_keg(keg_id, amount):
+    if keg.filter(keg_id=keg_id)!=None:
+        delete_keg(keg_id)
+        new_keg=keg(kegid=keg_id, amount=amount)
+        session.add(new_keg)
+
+
